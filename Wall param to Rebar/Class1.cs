@@ -35,18 +35,53 @@ namespace WallParamToRebar.RevitCommands
                     {
                         XYZ centerPoint = GetCenterPoint(centerlineCurves.First());
                         Solid rebarCenterSolid = CreateSphereByPoint(centerPoint);
+
+                        // Поиск первой пересекающейся стены
                         ElementId hostWallId = FindFirstIntersectingWall(doc, rebarCenterSolid, walls);
-                        rebar.SetHostId(doc, hostWallId);
-                        ///Использовать в качестве резервного варианта по передаче параметров
-                        //GeometryElement wallGeometryElement = wall.get_Geometry(new Options());
-                        //Parameter wallLevelParam = wall.LookupParameter("Орг.УровеньРазмещения");
-                        //rebarLevelParam.Set(wallLevelId);
-                        //TransferWallParameterToRebar(walls, centerPoint, rebar,doc);
+
+                        // Устанавливаем HostId только если найдено пересечение
+                        if (hostWallId != ElementId.InvalidElementId)
+                        {
+                            rebar.SetHostId(doc, hostWallId);
+                        }
                     }
                 }
                 gt.Commit();
             }
 
+
+            /////Более сложный и долгий вариант в 2 раза
+            //using (Transaction gt = new Transaction(doc, "01_DarkMagic: WallId->RebarHostId"))
+            //{
+            //    gt.Start();
+
+            //    foreach (Rebar rebar in rebars)
+            //    {
+            //        IList<Curve> centerlineCurves = rebar.GetCenterlineCurves(false, false, false, MultiplanarOption.IncludeOnlyPlanarCurves, 0);
+            //        if (centerlineCurves.Any())
+            //        {
+            //            XYZ centerPoint = GetCenterPoint(centerlineCurves.First());
+            //            Solid rebarCenterSolid = CreateSphereByPoint(centerPoint);
+
+            //            // Проверка пересечения сферы с каждой стеной
+            //            foreach (Wall wall in walls)
+            //            {
+            //                GeometryElement wallGeometryElement = wall.get_Geometry(new Options());
+            //                foreach (GeometryObject geoObject in wallGeometryElement)
+            //                {
+            //                    Solid wallSolid = geoObject as Solid;
+            //                    if (wallSolid != null && DoSolidsIntersect(rebarCenterSolid, wallSolid))
+            //                    {
+            //                        // Найдено пересечение сферы стержня и стены
+            //                        rebar.SetHostId(doc, wall.Id);
+            //                        break; // Прерываем цикл, так как найдено пересечение
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //    gt.Commit();
+            //}
 
             stopwatch.Stop();
             TimeSpan elapsedTime = stopwatch.Elapsed;
@@ -61,7 +96,8 @@ namespace WallParamToRebar.RevitCommands
             List<Curve> profile = new List<Curve>();
 
             // Установка радиуса сферы
-            double radius = 250 / 304.8;
+            double radius = 3;
+            //double radius = 250/304.8;
             //double radius = 0.2;
             XYZ profilePlus = center + new XYZ(0, radius, 0);
             XYZ profileMinus = center - new XYZ(0, radius, 0);
@@ -86,7 +122,7 @@ namespace WallParamToRebar.RevitCommands
             }
         }
 
-        // Gets the center point of the first curve
+
         private XYZ GetCenterPoint(Curve curve)
         {
             return (curve.GetEndPoint(0) + curve.GetEndPoint(1)) / 2;
