@@ -37,6 +37,10 @@ namespace WallParamToRebar.RevitCommands
                         Solid rebarCenterSolid = CreateSphereByPoint(centerPoint);
                         ElementId hostWallId = FindFirstIntersectingWall(doc, rebarCenterSolid, walls);
                         rebar.SetHostId(doc, hostWallId);
+                        ///Использовать в качестве резервного варианта по передаче параметров
+                        //GeometryElement wallGeometryElement = wall.get_Geometry(new Options());
+                        //Parameter wallLevelParam = wall.LookupParameter("Орг.УровеньРазмещения");
+                        //rebarLevelParam.Set(wallLevelId);
                         //TransferWallParameterToRebar(walls, centerPoint, rebar,doc);
                     }
                 }
