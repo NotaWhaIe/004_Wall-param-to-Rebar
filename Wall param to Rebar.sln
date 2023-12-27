@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34407.89
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wall param to Rebar", "Wall param to Rebar\Wall param to Rebar.csproj", "{4FEAD4E7-26D3-406D-BC60-2B1C95FC686E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FEAD4E7-26D3-406D-BC60-2B1C95FC686E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FEAD4E7-26D3-406D-BC60-2B1C95FC686E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FEAD4E7-26D3-406D-BC60-2B1C95FC686E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FEAD4E7-26D3-406D-BC60-2B1C95FC686E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {460A88DF-6A28-4108-9EC0-99BE33153A07}
+	EndGlobalSection
+EndGlobal
